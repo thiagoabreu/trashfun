@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+
 #endregion
 
 namespace TrashFun
@@ -19,10 +20,13 @@ namespace TrashFun
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Game1()
-            : base()
+        // Variável responsável pelo background
+        Background background;
+
+        public Game1 ()
+            : base ()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager (this);
             Content.RootDirectory = "Content";
         }
 
@@ -36,7 +40,7 @@ namespace TrashFun
         {
             // TODO: Add your initialization logic here
 
-            base.Initialize();
+            base.Initialize ();
         }
 
         /// <summary>
@@ -46,9 +50,11 @@ namespace TrashFun
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch (GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            background = new Background (this.Content, GraphicsDevice.Viewport.Width);
         }
 
         /// <summary>
@@ -70,9 +76,17 @@ namespace TrashFun
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // TODO: Atualizar a posição dos lixos de acordo com o toque
+            // TODO: Colocar novos lixos, se possível
+            // vetorDeLixo.Update(gameTime);
 
-            base.Update(gameTime);
+            // TODO: Verificar colisoes com Lixeiros
+            // lixeiros.Colisoes(vetorDeLixo);
+
+            // TODO: Atualizar posição do Bg animado
+            // background.Update(gameTime);
+
+            base.Update (gameTime);
         }
 
         /// <summary>
@@ -81,11 +95,18 @@ namespace TrashFun
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear (Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-            
-            base.Draw(gameTime);
+            // TODO: Desenhar Background
+            // background.Draw(spriteBatch);
+
+            // TODO: Desenhar Lixeiros
+            // Lixeiros.Draw(spriteBatch);
+
+            // TODO: Desenhar Lixos
+            // VetorDeLixo.Draw(spriteBatch);
+
+            base.Draw (gameTime);
         }
     }
 }
