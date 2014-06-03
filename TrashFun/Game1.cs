@@ -27,8 +27,13 @@ namespace TrashFun
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.IsFullScreen = false;
 
+            Content.RootDirectory = "Content";
+            
+            // Matenha isso como True para poder ver o cursor do mouse
             IsMouseVisible = true;
         }
 
