@@ -28,6 +28,8 @@ namespace TrashFun
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -40,8 +42,12 @@ namespace TrashFun
         {
             // TODO: Add your initialization logic here
 
+            
+
             base.Initialize();
         }
+
+        Lixo lixo;
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -51,6 +57,10 @@ namespace TrashFun
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Texture2D texturaLixo = Content.Load<Texture2D>("box");
+
+            lixo = new Lixo(texturaLixo, new Vector2(150, 150));
 
             // TODO: use this.Content to load your game content here
 
@@ -76,6 +86,8 @@ namespace TrashFun
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            lixo.Update();
+
             // TODO: Atualizar a posição dos lixos de acordo com o toque
             // TODO: Colocar novos lixos, se possível
             // vetorDeLixo.Update(gameTime);
@@ -96,6 +108,8 @@ namespace TrashFun
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            lixo.Draw(spriteBatch);
 
             // TODO: Desenhar Background
             // background.Draw(spriteBatch);
