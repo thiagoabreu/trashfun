@@ -23,10 +23,10 @@ namespace TrashFun
         // Variável responsável pelo background
         Background background;
 
-        public Game1 ()
-            : base ()
+        public Game1()
+            : base()
         {
-            graphics = new GraphicsDeviceManager (this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -40,7 +40,7 @@ namespace TrashFun
         {
             // TODO: Add your initialization logic here
 
-            base.Initialize ();
+            base.Initialize();
         }
 
         /// <summary>
@@ -50,11 +50,11 @@ namespace TrashFun
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch (GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
 
-            background = new Background (this.Content, GraphicsDevice.Viewport.Width);
+            background = new Background(this.Content, GraphicsDevice.Viewport.Width);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TrashFun
             // TODO: Atualizar posição do Bg animado
             // background.Update(gameTime);
 
-            base.Update (gameTime);
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace TrashFun
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear (Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Desenhar Background
             // background.Draw(spriteBatch);
@@ -106,7 +106,7 @@ namespace TrashFun
             // TODO: Desenhar Lixos
             // VetorDeLixo.Draw(spriteBatch);
 
-            base.Draw (gameTime);
+            base.Draw(gameTime);
         }
     }
 }
