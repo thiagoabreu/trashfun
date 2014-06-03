@@ -47,7 +47,7 @@ namespace TrashFun
         {
             // TODO: Add your initialization logic here
 
-            
+            EstadoDeJogo.ZeraJogo();
 
             base.Initialize();
         }
@@ -93,15 +93,30 @@ namespace TrashFun
 
             lixo.Update();
 
-            // TODO: Atualizar a posição dos lixos de acordo com o toque
-            // TODO: Colocar novos lixos, se possível
-            // vetorDeLixo.Update(gameTime);
+            switch (EstadoDeJogo.FaseDeExecucao)
+            {
+                case Fase.Inicial:
+                    // TODO: Criar classe de tela de splash/menu
+                    // telaInicial.Update(estadoAtual);
+                    break;
+                case Fase.Partida:
+                    // TODO: Atualizar a posição dos lixos de acordo com o toque
+                    // TODO: Colocar novos lixos, se possível
+                    // vetorDeLixo.Update(gameTime);
 
-            // TODO: Verificar colisoes com Lixeiros
-            // lixeiros.Colisoes(vetorDeLixo);
+                    // TODO: Verificar colisoes com Lixeiros
+                    // lixeiros.Colisoes(vetorDeLixo);
 
-            // TODO: Atualizar posição do Bg animado
-            // background.Update(gameTime);
+                    // TODO: Atualizar posição do Bg animado
+                    // background.Update(gameTime);
+                    break;
+                case Fase.Final:
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                        EstadoDeJogo.ZeraJogo();
+                    break;
+                default:
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -116,14 +131,29 @@ namespace TrashFun
 
             lixo.Draw(spriteBatch);
 
-            // TODO: Desenhar Background
-            // background.Draw(spriteBatch);
+            
 
-            // TODO: Desenhar Lixeiros
-            // Lixeiros.Draw(spriteBatch);
+            switch (EstadoDeJogo.FaseDeExecucao)
+            {
+                case Fase.Inicial:
+                    // TelaInicial.Draw();
+                    break;
+                case Fase.Partida:
+                    // TODO: Desenhar Background
+                    // background.Draw(spriteBatch);
 
-            // TODO: Desenhar Lixos
-            // VetorDeLixo.Draw(spriteBatch);
+                    // TODO: Desenhar Lixeiros
+                    // Lixeiros.Draw(spriteBatch);
+
+                    // TODO: Desenhar Lixos
+                    // VetorDeLixo.Draw(spriteBatch);
+                    break;
+                case Fase.Final:
+                    // TelaPontuacao.Draw();
+                    break;
+                default:
+                    break;
+            }
 
             base.Draw(gameTime);
         }

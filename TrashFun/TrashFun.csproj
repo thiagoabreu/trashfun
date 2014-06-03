@@ -33,6 +33,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EstadoDeJogo.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Lixo.cs" />
     <Compile Include="Program.cs" />
