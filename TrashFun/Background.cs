@@ -105,14 +105,12 @@ namespace TrashFun
         /// <param name="spriteBatch">Buffer de vídeo</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             foreach(var posicao in posicoesAnimado)
             {
                 Rectangle quadro = new Rectangle((int)posicao.X, (int)posicao.Y, larguraAnimado, alturaAnimado);
                 spriteBatch.Draw(animado, quadro, Color.White);
             }
             spriteBatch.Draw(fixo, posicaoFixo, Color.White);
-            spriteBatch.End();
         }
     }
 }
