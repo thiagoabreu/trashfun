@@ -70,9 +70,7 @@ namespace TrashFun
         /// <param name="spriteBatch">Buffer de vídeo</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             spriteBatch.Draw(textura, box, Color.Yellow);
-            spriteBatch.End();
         }
     }
 }
