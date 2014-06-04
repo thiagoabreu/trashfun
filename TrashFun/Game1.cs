@@ -24,6 +24,8 @@ namespace TrashFun
         int screenWidth = 800, screenHeight = 600;
         cButton btnPlay;
 
+        SpriteFont scoreFont;
+
         // Variável responsável pelo background
         Background background;
 
@@ -76,7 +78,7 @@ namespace TrashFun
 
             lixo = new Lixo(texturaLixo, new Vector2(150, 150));
 
-            // TODO: use this.Content to load your game content here
+            scoreFont = Content.Load<SpriteFont>("ScoreFont");
 
             background = new Background(this.Content, GraphicsDevice.Viewport.Width);
         }
@@ -141,9 +143,6 @@ namespace TrashFun
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            lixo.Draw(spriteBatch);
-
-
             spriteBatch.Begin();
             switch (EstadoDeJogo.FaseDeExecucao)
             {
@@ -160,6 +159,8 @@ namespace TrashFun
 
                 // TODO: Desenhar Lixos
                 // VetorDeLixo.Draw(spriteBatch);
+                lixo.Draw(spriteBatch);
+                EstadoDeJogo.DrawScoreAndLife(spriteBatch, scoreFont);
                 break;
             case Fase.Final:
                 // TelaPontuacao.Draw();
