@@ -20,19 +20,22 @@ namespace TrashFun
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Screen Adjustments
+        int screenWidth = 800, screenHeight = 600;
+        cButton btnPlay;
+
         // Variável responsável pelo background
         Background background;
+
+        // Variáel responsáel pelo lixo
+        Lixo lixo;
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.IsFullScreen = false;
-
             Content.RootDirectory = "Content";
-            
+
             // Matenha isso como True para poder ver o cursor do mouse
             IsMouseVisible = true;
         }
@@ -52,8 +55,6 @@ namespace TrashFun
             base.Initialize();
         }
 
-        Lixo lixo;
-
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -63,6 +64,14 @@ namespace TrashFun
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            //graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
+            IsMouseVisible = true;
+
+            btnPlay = new cButton(Content.Load<Texture2D>("btn_new_game"), graphics.GraphicsDevice);
+            btnPlay.setPosition(new Vector2(300, 300));
             Texture2D texturaLixo = Content.Load<Texture2D>("box");
 
             lixo = new Lixo(texturaLixo, new Vector2(150, 150));
@@ -91,31 +100,34 @@ namespace TrashFun
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            lixo.Update();
+            MouseState mouse = Mouse.GetState();
 
             switch (EstadoDeJogo.FaseDeExecucao)
             {
-                case Fase.Inicial:
-                    // TODO: Criar classe de tela de splash/menu
-                    // telaInicial.Update(estadoAtual);
-                    break;
-                case Fase.Partida:
-                    // TODO: Atualizar a posição dos lixos de acordo com o toque
-                    // TODO: Colocar novos lixos, se possível
-                    // vetorDeLixo.Update(gameTime);
+            case Fase.Inicial:
+                // TODO: Criar classe de tela de splash/menu
+                if(btnPlay.isClicked == true)
+                    EstadoDeJogo.FaseDeExecucao = Fase.Partida;
+                btnPlay.Update(mouse);
+                break;
+            case Fase.Partida:
+                lixo.Update();
+                // TODO: Atualizar a posição dos lixos de acordo com o toque
+                // TODO: Colocar novos lixos, se possível
+                // vetorDeLixo.Update(gameTime);
 
-                    // TODO: Verificar colisoes com Lixeiros
-                    // lixeiros.Colisoes(vetorDeLixo);
+                // TODO: Verificar colisoes com Lixeiros
+                // lixeiros.Colisoes(vetorDeLixo);
 
-                    // TODO: Atualizar posição do Bg animado
-                    // background.Update(gameTime);
-                    break;
-                case Fase.Final:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                        EstadoDeJogo.ZeraJogo();
-                    break;
-                default:
-                    break;
+                // TODO: Atualizar posição do Bg animado
+                // background.Update(gameTime);
+                break;
+            case Fase.Final:
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    EstadoDeJogo.ZeraJogo();
+                break;
+            default:
+                break;
             }
 
             base.Update(gameTime);
@@ -131,29 +143,31 @@ namespace TrashFun
 
             lixo.Draw(spriteBatch);
 
-            
 
+            spriteBatch.Begin();
             switch (EstadoDeJogo.FaseDeExecucao)
             {
-                case Fase.Inicial:
-                    // TelaInicial.Draw();
-                    break;
-                case Fase.Partida:
-                    // TODO: Desenhar Background
-                    // background.Draw(spriteBatch);
+            case Fase.Inicial:
+                spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                btnPlay.Draw(spriteBatch);
+                break;
+            case Fase.Partida:
+                // TODO: Desenhar Background
+                // background.Draw(spriteBatch);
 
-                    // TODO: Desenhar Lixeiros
-                    // Lixeiros.Draw(spriteBatch);
+                // TODO: Desenhar Lixeiros
+                // Lixeiros.Draw(spriteBatch);
 
-                    // TODO: Desenhar Lixos
-                    // VetorDeLixo.Draw(spriteBatch);
-                    break;
-                case Fase.Final:
-                    // TelaPontuacao.Draw();
-                    break;
-                default:
-                    break;
+                // TODO: Desenhar Lixos
+                // VetorDeLixo.Draw(spriteBatch);
+                break;
+            case Fase.Final:
+                // TelaPontuacao.Draw();
+                break;
+            default:
+                break;
             }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
