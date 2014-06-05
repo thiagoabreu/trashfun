@@ -125,7 +125,7 @@ namespace TrashFun
                 // background.Update(gameTime);
                 break;
             case Fase.Final:
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if (mouse.LeftButton == ButtonState.Pressed)
                     EstadoDeJogo.ZeraJogo();
                 break;
             default:
