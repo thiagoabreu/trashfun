@@ -65,10 +65,10 @@ namespace TrashFun
             for(int i = 0; i < posicoesAnimado.Length; i++)
                 posicoesAnimado[i] = new Vector2(i * larguraAnimado, 0);
 
-            // TODO: Textura Paisagem
-//            fixo = content.Load("muro");
-//            int altitudeFixo = 20;
-//            posicaoFixo = new Vector2(0, altitudeFixo);
+
+            fixo = content.Load<Texture2D>("chao");
+            int altitudeFixo = 100;
+            posicaoFixo = new Vector2(0, altitudeFixo);
 
         }
 
@@ -80,7 +80,7 @@ namespace TrashFun
         {
             TimeSpan tempoDecorrido = gameTime.TotalGameTime;
 
-            if(tempoDecorrido.TotalMilliseconds - tempoAnterior.TotalMilliseconds > 800)
+            if(tempoDecorrido.TotalMilliseconds - tempoAnterior.TotalMilliseconds > 50)
             {
                 tempoAnterior = tempoDecorrido;
 
@@ -106,7 +106,7 @@ namespace TrashFun
                 Rectangle quadro = new Rectangle((int)posicao.X, (int)posicao.Y, larguraAnimado, alturaAnimado);
                 spriteBatch.Draw(animado, quadro, Color.White);
             }
-//            spriteBatch.Draw(fixo, posicaoFixo, Color.White);
+            spriteBatch.Draw(fixo, posicaoFixo, Color.White);
         }
     }
 }
