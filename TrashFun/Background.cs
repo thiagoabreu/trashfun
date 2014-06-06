@@ -52,22 +52,18 @@ namespace TrashFun
         public Background(ContentManager content, int larguraTela)
         {
             // TODO: Achar uma velocidade legal pro Céu
-            velocidade = 2;
+            velocidade = 1;
             tempoAnterior = new TimeSpan(0);
 
-            // TODO: Textura do Céu
-//            animado = content.Load("ceu");
-//            larguraAnimado = animado.Width;
-//            alturaAnimado = animado.Height;
-//
-//            int numero_quadros = (larguraTela > larguraAnimado) ? larguraTela / larguraAnimado + 1 : 2;
-//            posicoesAnimado = new Vector2[numero_quadros];
-//
-//            // Inicio o Céu
-//            int altitudeAnimado = 0;
-//
-//            for(int i = 0; i < posicoesAnimado.Length; i++)
-//                posicoesAnimado[i] = new Vector2(i * larguraAnimado, altitudeAnimado);
+            animado = content.Load<Texture2D>("ceu");
+            larguraAnimado = animado.Width;
+            alturaAnimado = animado.Height;
+
+            int numero_quadros = (larguraTela > larguraAnimado) ? larguraTela / larguraAnimado + 2 : 2;
+            posicoesAnimado = new Vector2[numero_quadros];
+          
+            for(int i = 0; i < posicoesAnimado.Length; i++)
+                posicoesAnimado[i] = new Vector2(i * larguraAnimado, 0);
 
             // TODO: Textura Paisagem
 //            fixo = content.Load("muro");
@@ -82,17 +78,17 @@ namespace TrashFun
         /// <param name="gameTime">Determina o tempo do jogo</param>
         public void Update(GameTime gameTime)
         {
-            TimeSpan tempoDecorrido = gameTime.ElapsedGameTime;
+            TimeSpan tempoDecorrido = gameTime.TotalGameTime;
 
-            if(tempoDecorrido.TotalSeconds - tempoAnterior.TotalSeconds > 2)
+            if(tempoDecorrido.TotalMilliseconds - tempoAnterior.TotalMilliseconds > 800)
             {
                 tempoAnterior = tempoDecorrido;
 
-                for (int i = 0; i < posicoesAnimado.Length; i++)
+                for(int i = 0; i < posicoesAnimado.Length; i++)
                 {
                     posicoesAnimado[i].X -= velocidade;
 
-                    if(posicoesAnimado[i].X < -larguraAnimado)
+                    if(posicoesAnimado[i].X <= -larguraAnimado)
                         posicoesAnimado[i].X = larguraAnimado * (posicoesAnimado.Length - 1);
                 }
             }
@@ -110,7 +106,7 @@ namespace TrashFun
                 Rectangle quadro = new Rectangle((int)posicao.X, (int)posicao.Y, larguraAnimado, alturaAnimado);
                 spriteBatch.Draw(animado, quadro, Color.White);
             }
-            spriteBatch.Draw(fixo, posicaoFixo, Color.White);
+//            spriteBatch.Draw(fixo, posicaoFixo, Color.White);
         }
     }
 }

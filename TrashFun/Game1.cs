@@ -120,8 +120,7 @@ namespace TrashFun
                 // TODO: Verificar colisoes com Lixeiros
                 // lixeiros.Colisoes(vetorDeLixo);
 
-                // TODO: Atualizar posição do Bg animado
-                // background.Update(gameTime);
+                background.Update(gameTime);
 
                 if(EstadoDeJogo.Vidas == 0)
                     EstadoDeJogo.FaseDeExecucao = Fase.Final;
@@ -154,8 +153,7 @@ namespace TrashFun
                 btnPlay.Draw(spriteBatch);
                 break;
             case Fase.Partida:
-                // TODO: Desenhar Background
-                // background.Draw(spriteBatch);
+                 background.Draw(spriteBatch);
 
                 // TODO: Desenhar Lixeiros
                 // Lixeiros.Draw(spriteBatch);
