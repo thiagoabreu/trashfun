@@ -107,7 +107,6 @@ namespace TrashFun
             switch (EstadoDeJogo.FaseDeExecucao)
             {
             case Fase.Inicial:
-                // TODO: Criar classe de tela de splash/menu
                 if(btnPlay.isClicked == true)
                     EstadoDeJogo.FaseDeExecucao = Fase.Partida;
                 btnPlay.Update(mouse);
@@ -123,8 +122,12 @@ namespace TrashFun
 
                 // TODO: Atualizar posição do Bg animado
                 // background.Update(gameTime);
+
+                if(EstadoDeJogo.Vidas == 0)
+                    EstadoDeJogo.FaseDeExecucao = Fase.Final;
                 break;
             case Fase.Final:
+                btnPlay.isClicked = false;
                 if (mouse.LeftButton == ButtonState.Pressed)
                     EstadoDeJogo.ZeraJogo();
                 break;

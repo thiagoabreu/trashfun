@@ -29,7 +29,7 @@ namespace TrashFun
         {
             spriteBatch.DrawString(font, String.Format("PONTOS: {0}", Pontuacao), new Vector2(12, 12), Color.White);
             StringBuilder lifeString = new StringBuilder();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < EstadoDeJogo.Vidas; i++)
                 lifeString.Append("<3 ");
             spriteBatch.DrawString(font, lifeString.ToString(), new Vector2(700, 12), Color.Red);
         }
