@@ -18,6 +18,7 @@ namespace TrashFun
             NotRecycleBin = content.Load<Texture2D>("Textures\\not-recycle");
             PaperBin = content.Load<Texture2D>("Textures\\papel_trash");
             PlasticBin = content.Load<Texture2D>("Textures\\plastic_trash");
+            box = content.Load<Texture2D>("box");
         }
 
         public static void UnloadTextures() {
@@ -27,6 +28,9 @@ namespace TrashFun
             PaperBin.Dispose();
             PlasticBin.Dispose();
         }
+
+        public static Texture2D box;
+
     }
 }
 

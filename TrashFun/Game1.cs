@@ -27,11 +27,13 @@ namespace TrashFun
 
         SpriteFont scoreFont;
 
+        Texture2D heart;
+
         // Variável responsável pelo background
         Background background;
 
         // Variáel responsáel pelo lixo
-        Lixo lixo;
+        Texture2D texLixo;
 
         public Game1()
             : base()
@@ -53,6 +55,8 @@ namespace TrashFun
         {
             EstadoDeJogo.ZeraJogo();
 
+            Sujeira.Limpa();
+
             base.Initialize();
         }
 
@@ -73,8 +77,9 @@ namespace TrashFun
             btnPlay = new cButton(Content.Load<Texture2D>("btn_new_game"), graphics.GraphicsDevice);
             btnPlay.setPosition(new Vector2(300, 300));
 
-            lixo = new Lixo(Content.Load<Texture2D>("box"), new Vector2(150, 250), TipoDeLixo.Metal);
+            texLixo = Content.Load<Texture2D>("box");
 
+            heart = Content.Load<Texture2D>("heart");
             scoreFont = Content.Load<SpriteFont>("ScoreFont");
 
             background = new Background(this.Content, GraphicsDevice.Viewport.Width);
@@ -131,17 +136,20 @@ namespace TrashFun
             {
             case Fase.Inicial:
                 if(btnPlay.isClicked == true)
+                {
                     EstadoDeJogo.FaseDeExecucao = Fase.Partida;
+                    Sujeira.CriaLixo();
+                }
                 btnPlay.Update(mouse);
                 break;
             case Fase.Partida:
-                lixo.Update();
                 // TODO: Atualizar a posição dos lixos de acordo com o toque
-                // TODO: Colocar novos lixos, se possível
-                // vetorDeLixo.Update(gameTime);
 
-                // TODO: Verificar colisoes com Lixeiros
-                // lixeiros.Colisoes(vetorDeLixo);
+                Sujeira.Update();
+
+                Sujeira.CriaLixo(gameTime);
+
+                VerificaPontuacao();
 
                 background.Update(gameTime);
 
@@ -158,6 +166,23 @@ namespace TrashFun
             }
 
             base.Update(gameTime);
+        }
+
+        protected void VerificaPontuacao() {
+            if(Sujeira.ativo != null)
+            {
+                bool pontua;
+                if(Sujeira.ativo.VerificaColisoes(lixeiros, out pontua))
+                {
+                    if(pontua)
+                        EstadoDeJogo.Pontuacao += 10;
+                    else
+                        EstadoDeJogo.Vidas--;
+
+                    Sujeira.lixosNoChao.Remove(Sujeira.ativo);
+                    Sujeira.ativo = null;
+                }
+            }
         }
 
         /// <summary>
@@ -186,13 +211,16 @@ namespace TrashFun
                     item.Draw(spriteBatch);
                 }
 
+                Sujeira.DrawLixoNoChao(spriteBatch);
+
                 // TODO: Desenhar Lixos
                 // VetorDeLixo.Draw(spriteBatch);
-                lixo.Draw(spriteBatch);
-                EstadoDeJogo.DrawScoreAndLife(spriteBatch, scoreFont);
+
+                EstadoDeJogo.DrawScoreAndLife(spriteBatch, scoreFont, heart);
                 break;
             case Fase.Final:
                 // TelaPontuacao.Draw();
+                Sujeira.Limpa();
                 break;
             default:
                 break;

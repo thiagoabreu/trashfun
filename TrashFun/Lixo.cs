@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace TrashFun
 {
-    class Lixo : Collider
+    public class Lixo : Collider
     {
         enum EstadoDoLixo
         {
@@ -47,18 +48,42 @@ namespace TrashFun
         {
             MouseState mouse = Mouse.GetState();
 
-            if(estado == EstadoDoLixo.Solto)
+            switch(this.estado)
             {
+            case EstadoDoLixo.Solto:
                 if(mouse.LeftButton == ButtonState.Pressed && box.Contains(mouse.Position))
+                {
                     estado = EstadoDoLixo.Seguro;
-            } else
-            {
+                    Sujeira.ativo = this;
+                }
+                break;
+            case EstadoDoLixo.Seguro:
                 box.X = mouse.X - (box.Width / 2);
                 box.Y = mouse.Y - (box.Height / 2);
 
                 if(mouse.LeftButton == ButtonState.Released)
+                {
                     estado = EstadoDoLixo.Solto;
+                    Sujeira.ativo = null;
+                }
+
+                break;
+            default:
+                break;
             }
+        }
+
+        public bool VerificaColisoes(List<Lixeiro> lixeiros, out bool mesmoTipo) {
+            foreach(var lixeiro in lixeiros)
+            {
+                if(IsCollidedWith(lixeiro))
+                {
+                    mesmoTipo = (this.tipo == lixeiro.tipo);
+                    return true;
+                }
+            }
+            mesmoTipo = false;
+            return false;
         }
     }
 }

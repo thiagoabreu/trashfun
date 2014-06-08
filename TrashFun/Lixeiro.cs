@@ -10,7 +10,10 @@ namespace TrashFun
         /// <summary>
         /// Tipo de lixo que o Lixeiro deve receber
         /// </summary>
-        TipoDeLixo tipo;
+        public TipoDeLixo tipo {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrashFun.Lixeiro"/> class.
