@@ -39,10 +39,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="cButton.cs" />
     <Compile Include="Background.cs" />
-    <Compile Include="Lixeiros.cs" />
     <Compile Include="Lixeiro.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="TipoDeLixo.cs" />
+    <Compile Include="Textures\TexturaBg.cs" />
+    <Compile Include="Textures\TexturaLixeiros.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -111,4 +112,7 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Textures\" />
+  </ItemGroup>
 </Project>

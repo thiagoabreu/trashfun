@@ -19,6 +19,16 @@ namespace TrashFun
         /// <summary>
         /// Initializes a new instance of the <see cref="TrashFun.Collider"/> class.
         /// </summary>
+        /// <param name="posicao">Posicao.</param>
+        public Collider(Vector2 posicao) {
+            this.box = new Rectangle();
+            this.box.X = (int)posicao.X;
+            this.box.Y = (int)posicao.Y;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrashFun.Collider"/> class.
+        /// </summary>
         /// <param name="text">Text.</param>
         /// <param name="posicao">Posicao.</param>
         public Collider(Texture2D text, Vector2 posicao)

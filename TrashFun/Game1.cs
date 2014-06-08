@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using System.Collections;
 
 #endregion
 
@@ -50,8 +51,6 @@ namespace TrashFun
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             EstadoDeJogo.ZeraJogo();
 
             base.Initialize();
@@ -68,19 +67,43 @@ namespace TrashFun
 
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
-            //graphics.IsFullScreen = true;
             graphics.ApplyChanges();
             IsMouseVisible = true;
 
             btnPlay = new cButton(Content.Load<Texture2D>("btn_new_game"), graphics.GraphicsDevice);
             btnPlay.setPosition(new Vector2(300, 300));
-            Texture2D texturaLixo = Content.Load<Texture2D>("box");
 
-            lixo = new Lixo(texturaLixo, new Vector2(150, 150));
+            lixo = new Lixo(Content.Load<Texture2D>("box"), new Vector2(150, 250), TipoDeLixo.Metal);
 
             scoreFont = Content.Load<SpriteFont>("ScoreFont");
 
             background = new Background(this.Content, GraphicsDevice.Viewport.Width);
+
+            TexturaLixeiros.LoadTextures(Content);
+            LoadLixeiros();
+        }
+
+        List<Lixeiro> lixeiros;
+
+        protected void LoadLixeiros()
+        {
+            int quantidade = 5;
+
+            this.lixeiros = new List<Lixeiro>(quantidade);
+
+            int horizontal = screenWidth / quantidade;
+            int offset = horizontal / 2 - 40;
+
+            Vector2[] posicoes = new Vector2[quantidade];  
+
+            for(int i = 0; i < quantidade; i++)
+                posicoes[i] = new Vector2(offset + (i * horizontal), 100);
+
+            lixeiros.Add(new Lixeiro(posicoes[0], TipoDeLixo.Metal));
+            lixeiros.Add(new Lixeiro(posicoes[1], TipoDeLixo.Organico));
+            lixeiros.Add(new Lixeiro(posicoes[2], TipoDeLixo.Papel));
+            lixeiros.Add(new Lixeiro(posicoes[3], TipoDeLixo.Plastico));
+            lixeiros.Add(new Lixeiro(posicoes[4], TipoDeLixo.Vidro));
         }
 
         /// <summary>
@@ -89,7 +112,7 @@ namespace TrashFun
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            TexturaLixeiros.UnloadTextures();
         }
 
         /// <summary>
@@ -99,12 +122,12 @@ namespace TrashFun
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             MouseState mouse = Mouse.GetState();
 
-            switch (EstadoDeJogo.FaseDeExecucao)
+            switch(EstadoDeJogo.FaseDeExecucao)
             {
             case Fase.Inicial:
                 if(btnPlay.isClicked == true)
@@ -127,7 +150,7 @@ namespace TrashFun
                 break;
             case Fase.Final:
                 btnPlay.isClicked = false;
-                if (mouse.LeftButton == ButtonState.Pressed)
+                if(mouse.LeftButton == ButtonState.Pressed)
                     EstadoDeJogo.ZeraJogo();
                 break;
             default:
@@ -146,17 +169,22 @@ namespace TrashFun
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            switch (EstadoDeJogo.FaseDeExecucao)
+            switch(EstadoDeJogo.FaseDeExecucao)
             {
             case Fase.Inicial:
                 spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
                 btnPlay.Draw(spriteBatch);
                 break;
             case Fase.Partida:
-                 background.Draw(spriteBatch);
+                background.Draw(spriteBatch);
 
                 // TODO: Desenhar Lixeiros
                 // Lixeiros.Draw(spriteBatch);
+
+                foreach(var item in lixeiros)
+                {
+                    item.Draw(spriteBatch);
+                }
 
                 // TODO: Desenhar Lixos
                 // VetorDeLixo.Draw(spriteBatch);
