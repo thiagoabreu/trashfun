@@ -40,9 +40,9 @@ namespace TrashFun
         Vector2 posicaoFixo;
 
         /// <summary>
-        /// Guarda o clock da última atualização.
+        /// Tempo(ms) desde a última atualização.
         /// </summary>
-        TimeSpan tempoAnterior;
+        int tempoAnterior;
 
         /// <summary>
         /// Construtor. Deve ser chamado para carregar o conteúdo.
@@ -53,9 +53,9 @@ namespace TrashFun
         {
             // TODO: Achar uma velocidade legal pro Céu
             velocidade = 1;
-            tempoAnterior = new TimeSpan(0);
+            tempoAnterior = 0;
 
-            animado = content.Load<Texture2D>("ceu");
+            animado = content.Load<Texture2D>("Backgrounds\\ceu");
             larguraAnimado = animado.Width;
             alturaAnimado = animado.Height;
 
@@ -66,7 +66,7 @@ namespace TrashFun
                 posicoesAnimado[i] = new Vector2(i * larguraAnimado, 0);
 
 
-            fixo = content.Load<Texture2D>("chao");
+            fixo = content.Load<Texture2D>("Backgrounds\\grama");
             int altitudeFixo = 100;
             posicaoFixo = new Vector2(0, altitudeFixo);
 
@@ -78,11 +78,11 @@ namespace TrashFun
         /// <param name="gameTime">Determina o tempo do jogo</param>
         public void Update(GameTime gameTime)
         {
-            TimeSpan tempoDecorrido = gameTime.TotalGameTime;
+            tempoAnterior += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if(tempoDecorrido.TotalMilliseconds - tempoAnterior.TotalMilliseconds > 50)
+            if(tempoAnterior >= 50)
             {
-                tempoAnterior = tempoDecorrido;
+                tempoAnterior = 0;
 
                 for(int i = 0; i < posicoesAnimado.Length; i++)
                 {
