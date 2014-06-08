@@ -9,38 +9,36 @@ using System.Text;
 
 namespace TrashFun
 {
-    class Lixo
+    class Lixo : Collider
     {
-        /// <summary>
-        /// Guarda a textura do lixo
-        /// </summary>
-        Texture2D textura;
-
-        /// <summary>
-        /// Caixa de detecção de colisão. Também utilizada para desenhar
-        /// </summary>
-        Rectangle box;
-
         enum EstadoDoLixo
         {
-            Solto, Seguro
+            Solto,
+            Seguro
         }
 
+        /// <summary>
+        /// Qual o estado atual do lixo
+        /// </summary>
         EstadoDoLixo estado;
 
         /// <summary>
-        /// Construtor
+        /// Qual o tipo desse lixo;
         /// </summary>
-        /// <param name="textura">Define qual a aparencia do lixo</param>
-        /// <param name="posicao">Posição inicial do lixo. Deve manter o lixo sempre na tela</param>
-        public Lixo(Texture2D textura, Vector2 posicao)
+        TipoDeLixo tipo;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrashFun.Lixo"/> class.
+        /// </summary>
+        /// <param name="textura">Textura.</param>
+        /// <param name="posicao">Posicao.</param>
+        /// <param name="tipo">Tipo.</param>
+        public Lixo(Texture2D textura, Vector2 posicao, TipoDeLixo tipo) : base(textura, posicao)
         {
-            this.textura = textura;
-
-            this.box = new Rectangle((int)posicao.X, (int)posicao.Y, textura.Width, textura.Height);
-
-            estado = EstadoDoLixo.Solto;
+            this.estado = EstadoDoLixo.Solto;
+            this.tipo = tipo;
         }
+
 
         /// <summary>
         /// Atualiza a posição do lixo de acordo com a posição do mouse.
@@ -49,28 +47,18 @@ namespace TrashFun
         {
             MouseState mouse = Mouse.GetState();
 
-            if (estado == EstadoDoLixo.Solto)
+            if(estado == EstadoDoLixo.Solto)
             {
-                if (mouse.LeftButton == ButtonState.Pressed && box.Contains(mouse.Position))
+                if(mouse.LeftButton == ButtonState.Pressed && box.Contains(mouse.Position))
                     estado = EstadoDoLixo.Seguro;
-            }
-            else
+            } else
             {
                 box.X = mouse.X - (box.Width / 2);
                 box.Y = mouse.Y - (box.Height / 2);
 
-                if (mouse.LeftButton == ButtonState.Released)
+                if(mouse.LeftButton == ButtonState.Released)
                     estado = EstadoDoLixo.Solto;
             }
-        }
-
-        /// <summary>
-        /// Método básico para desenhar a textura do lixo
-        /// </summary>
-        /// <param name="spriteBatch">Buffer de vídeo</param>
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(textura, box, Color.Yellow);
         }
     }
 }
