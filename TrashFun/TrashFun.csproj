@@ -34,15 +34,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="EstadoDeJogo.cs" />
-    <Compile Include="Game1.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Game1.cs" />
     <Compile Include="Lixo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="cButton.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="cButton.cs" />
     <Compile Include="Background.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +121,5 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup>
-    <Folder Include="Content\Textures\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
