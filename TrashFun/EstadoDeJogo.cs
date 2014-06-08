@@ -38,6 +38,21 @@ namespace TrashFun
                 lifeString.Append("S2 ");
             spriteBatch.DrawString(font, lifeString.ToString(), new Vector2(700, 12), Color.Red);
         }
+
+        public static void DrawScoreAndLife(SpriteBatch spriteBatch, SpriteFont font, Texture2D coracao)
+        {
+            spriteBatch.DrawString(font, String.Format("PONTOS: {0}", Pontuacao), new Vector2(14, 14), Color.Black);
+            spriteBatch.DrawString(font, String.Format("PONTOS: {0}", Pontuacao), new Vector2(12, 12), Color.White);
+            Rectangle core = new Rectangle();
+            core.Height = 20;
+            core.Width = 20;
+            core.Y = 12;
+            for(int i = 0; i < EstadoDeJogo.Vidas; i++)
+            {
+                core.X = 700 + (i * 30);
+                spriteBatch.Draw(coracao, core, Color.White);             
+            }
+        }
             
     }
 }
