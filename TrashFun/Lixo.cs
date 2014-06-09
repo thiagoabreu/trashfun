@@ -24,9 +24,13 @@ namespace TrashFun
         EstadoDoLixo estado;
 
         /// <summary>
-        /// Qual o tipo desse lixo;
+        /// Qual o tipo desse lixo
         /// </summary>
-        TipoDeLixo tipo;
+        /// <value>The tipo.</value>
+        public TipoDeLixo tipo {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrashFun.Lixo"/> class.
@@ -71,19 +75,6 @@ namespace TrashFun
             default:
                 break;
             }
-        }
-
-        public bool VerificaColisoes(List<Lixeiro> lixeiros, out bool mesmoTipo) {
-            foreach(var lixeiro in lixeiros)
-            {
-                if(IsCollidedWith(lixeiro))
-                {
-                    mesmoTipo = (this.tipo == lixeiro.tipo);
-                    return true;
-                }
-            }
-            mesmoTipo = false;
-            return false;
         }
     }
 }

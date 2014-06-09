@@ -86,6 +86,46 @@ namespace TrashFun
         }
 
         /// <summary>
+        /// Verifica colisões com as lixeiras
+        /// </summary>
+        /// <returns><c>true</c>, se houve colisão, <c>false</c> caso contrario.</returns>
+        /// <param name="lixeiros">Lixeiros.</param>
+        /// <param name="mesmoTipo">Se é a lixeira correta.</param>
+        public static bool VerificaColisoes(List<Lixeiro> lixeiros, out bool mesmoTipo) {
+            foreach(var lixeiro in lixeiros)
+            {
+                if(ativo.IsCollidedWith(lixeiro))
+                {
+                    mesmoTipo = (ativo.tipo == lixeiro.tipo);
+                    return true;
+                }
+            }
+            mesmoTipo = false;
+            return false;
+        }
+
+        /// <summary>
+        /// Verifica colisções com outros lixos.
+        /// </summary>
+        /// <returns><c>true</c>, se houve colisão, <c>false</c> caso contrário.</returns>
+        /// <param name="outro">Outro.</param>
+        /// <param name="mesmoTipo">Mesmo tipo.</param>
+        public static bool VerificaColisoes(out Lixo outro, out bool mesmoTipo) {
+            foreach(var lixo in lixosNoChao)
+            {
+                if(ativo != lixo && ativo.IsCollidedWith(lixo))
+                {
+                    mesmoTipo = (ativo.tipo == lixo.tipo);
+                    outro = lixo;
+                    return true;
+                }
+            }
+            mesmoTipo = false;
+            outro = null;
+            return false;
+        }
+
+        /// <summary>
         /// Desenha os lixos jogados no chão
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>

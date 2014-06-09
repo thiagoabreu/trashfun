@@ -168,19 +168,42 @@ namespace TrashFun
             base.Update(gameTime);
         }
 
-        protected void VerificaPontuacao() {
+        /// <summary>
+        /// Testa se houve colisão e atualiza pontuação de acordo.
+        /// </summary>
+        protected void VerificaPontuacao()
+        {
             if(Sujeira.ativo != null)
             {
-                bool pontua;
-                if(Sujeira.ativo.VerificaColisoes(lixeiros, out pontua))
+                bool lixeiraCorreta;
+
+                // Se colidiu com uma lixeira
+                if(Sujeira.VerificaColisoes(lixeiros, out lixeiraCorreta))
                 {
-                    if(pontua)
-                        EstadoDeJogo.Pontuacao += 10;
+                    if(lixeiraCorreta)
+                        EstadoDeJogo.Pontua();
                     else
                         EstadoDeJogo.Vidas--;
 
                     Sujeira.lixosNoChao.Remove(Sujeira.ativo);
                     Sujeira.ativo = null;
+                    return;
+                }
+
+                bool bonus;
+                Lixo outro;
+
+                // Se colidiu com outro lixo
+                if(Sujeira.VerificaColisoes(out outro, out bonus))
+                {
+                    if(bonus)
+                        EstadoDeJogo.GanhaBonus();
+                    else
+                    {
+                        Sujeira.lixosNoChao.Remove(Sujeira.ativo);
+                        Sujeira.ativo = null;
+                    }
+                    Sujeira.lixosNoChao.Remove(outro);
                 }
             }
         }

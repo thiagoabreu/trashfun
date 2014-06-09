@@ -16,7 +16,9 @@ namespace TrashFun
 
     static class EstadoDeJogo
     {
-        public static int Pontuacao { get; set; }
+        public static int Pontuacao { get; private set; }
+
+        public static int Bonus { get; private set; }
 
         public static Fase FaseDeExecucao { get; set; }
 
@@ -26,7 +28,19 @@ namespace TrashFun
         {
             Pontuacao = 0;
             Vidas = 3;
+            Bonus = 2;
             FaseDeExecucao = Fase.Inicial;
+        }
+
+        public static void Pontua()
+        {
+            Pontuacao += 5 * Bonus;
+            Bonus = 2;
+        }
+
+        public static void GanhaBonus()
+        {
+            Bonus *= 2;
         }
 
         public static void DrawScoreAndLife(SpriteBatch spriteBatch, SpriteFont font)
