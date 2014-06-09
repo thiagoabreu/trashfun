@@ -42,6 +42,8 @@ namespace TrashFun
         {
             this.estado = EstadoDoLixo.Solto;
             this.tipo = tipo;
+            this.box.Width = 50;
+            this.box.Height = 50;
         }
 
 
