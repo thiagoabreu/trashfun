@@ -26,6 +26,7 @@ namespace TrashFun
         cButton btnPlay;
 
         SpriteFont scoreFont;
+        SpriteFont GameOverFont;
 
         Texture2D heart;
 
@@ -81,9 +82,11 @@ namespace TrashFun
 
             heart = Content.Load<Texture2D>("heart");
             scoreFont = Content.Load<SpriteFont>("ScoreFont");
+            GameOverFont = Content.Load<SpriteFont>("GameOverFont");
 
             background = new Background(this.Content, GraphicsDevice.Viewport.Width);
 
+            TexturaLixo.LoadTextures(Content);
             TexturaLixeiros.LoadTextures(Content);
             LoadLixeiros();
         }
@@ -154,12 +157,17 @@ namespace TrashFun
                 background.Update(gameTime);
 
                 if(EstadoDeJogo.Vidas == 0)
+                {
                     EstadoDeJogo.FaseDeExecucao = Fase.Final;
+                    flag_acabou = true;
+                }
                 break;
             case Fase.Final:
                 btnPlay.isClicked = false;
-                if(mouse.LeftButton == ButtonState.Pressed)
+                if(mouse.LeftButton == ButtonState.Pressed && flag_acabou == false)
                     EstadoDeJogo.ZeraJogo();
+                if(mouse.LeftButton == ButtonState.Released)
+                    flag_acabou = false;
                 break;
             default:
                 break;
@@ -167,6 +175,8 @@ namespace TrashFun
 
             base.Update(gameTime);
         }
+
+        bool flag_acabou;
 
         /// <summary>
         /// Testa se houve colisão e atualiza pontuação de acordo.
@@ -244,6 +254,11 @@ namespace TrashFun
             case Fase.Final:
                 // TelaPontuacao.Draw();
                 Sujeira.Limpa();
+                spriteBatch.DrawString(GameOverFont, "GAME OVER", new Vector2(302, 252), Color.Black);
+                spriteBatch.DrawString(GameOverFont, "GAME OVER", new Vector2(300, 250), Color.White);
+
+                spriteBatch.DrawString(GameOverFont, EstadoDeJogo.Pontuacao.ToString(), new Vector2(302, 302), Color.Black);
+                spriteBatch.DrawString(GameOverFont, EstadoDeJogo.Pontuacao.ToString(), new Vector2(300, 300), Color.White);
                 break;
             default:
                 break;

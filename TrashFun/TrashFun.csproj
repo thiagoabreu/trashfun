@@ -9,6 +9,7 @@
     <RootNamespace>TrashFun</RootNamespace>
     <AssemblyName>TrashFun</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <UseMSBuildEngine>False</UseMSBuildEngine>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -41,14 +42,26 @@
     <Compile Include="Lixeiro.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="TipoDeLixo.cs" />
-    <Compile Include="Textures\TexturaBg.cs" />
     <Compile Include="Textures\TexturaLixeiros.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="Sujeira.cs" />
+    <Compile Include="Textures\TexturaLixo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\packages\MonoGame.Binaries.3.2.0\build\net40\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Binaries.3.2.0\build\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\packages\MonoGame.Binaries.3.2.0\build\net40\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\packages\MonoGame.Binaries.3.2.0\build\net40\Tao.Sdl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\box.png">
@@ -90,6 +103,12 @@
     </Content>
     <Content Include="Content\Textures\plastic_trash.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\lata_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\papel_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />

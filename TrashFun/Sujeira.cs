@@ -38,7 +38,13 @@ namespace TrashFun
             int altura = rand.Next(300, 500);
             int largura = rand.Next(50, 700);
 
-            Lixo lixo = new Lixo(TexturaLixeiros.box, new Vector2(largura, altura), TipoDeLixo.Metal);
+            int aleatorio = rand.Next();
+            Lixo lixo;
+            if(aleatorio % 2 == 0)
+                lixo = new Lixo(TexturaLixo.Metal, new Vector2(largura, altura), TipoDeLixo.Metal);
+            else
+                lixo = new Lixo(TexturaLixo.Papel, new Vector2(largura, altura), TipoDeLixo.Papel);
+
 
             bool ok = true;
             foreach(Lixo item in lixosNoChao)
@@ -67,7 +73,7 @@ namespace TrashFun
         /// <param name="gameTime">Game time.</param>
         public static void CriaLixo(GameTime gameTime) {
             lastUpdate += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if(lastUpdate >= 10000)
+            if(lastUpdate >= 5000)
             {
                 lastUpdate = 0;
                 for(int i = 0; i < 5; i++)
