@@ -1,21 +1,10 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
-using System.Collections;
-
-#endregion
 
 namespace TrashFun
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -102,9 +91,9 @@ namespace TrashFun
             int horizontal = screenWidth / quantidade;
             int offset = horizontal / 2 - 40;
 
-            Vector2[] posicoes = new Vector2[quantidade];  
+            Vector2[] posicoes = new Vector2[quantidade];
 
-            for(int i = 0; i < quantidade; i++)
+            for (int i = 0; i < quantidade; i++)
                 posicoes[i] = new Vector2(offset + (i * horizontal), 100);
 
             lixeiros.Add(new Lixeiro(posicoes[0], TipoDeLixo.Metal));
@@ -130,47 +119,47 @@ namespace TrashFun
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             MouseState mouse = Mouse.GetState();
 
-            switch(EstadoDeJogo.FaseDeExecucao)
+            switch (EstadoDeJogo.FaseDeExecucao)
             {
-            case Fase.Inicial:
-                if(btnPlay.isClicked == true)
-                {
-                    EstadoDeJogo.FaseDeExecucao = Fase.Partida;
-                    Sujeira.CriaLixo();
-                }
-                btnPlay.Update(mouse);
-                break;
-            case Fase.Partida:
-                // TODO: Atualizar a posição dos lixos de acordo com o toque
+                case Fase.Inicial:
+                    if (btnPlay.isClicked == true)
+                    {
+                        EstadoDeJogo.FaseDeExecucao = Fase.Partida;
+                        Sujeira.CriaLixo();
+                    }
+                    btnPlay.Update(mouse);
+                    break;
+                case Fase.Partida:
+                    // TODO: Atualizar a posição dos lixos de acordo com o toque
 
-                Sujeira.Update();
+                    Sujeira.Update();
 
-                Sujeira.CriaLixo(gameTime);
+                    Sujeira.CriaLixo(gameTime);
 
-                VerificaPontuacao();
+                    VerificaPontuacao();
 
-                background.Update(gameTime);
+                    background.Update(gameTime);
 
-                if(EstadoDeJogo.Vidas == 0)
-                {
-                    EstadoDeJogo.FaseDeExecucao = Fase.Final;
-                    flag_acabou = true;
-                }
-                break;
-            case Fase.Final:
-                btnPlay.isClicked = false;
-                if(mouse.LeftButton == ButtonState.Pressed && flag_acabou == false)
-                    EstadoDeJogo.ZeraJogo();
-                if(mouse.LeftButton == ButtonState.Released)
-                    flag_acabou = false;
-                break;
-            default:
-                break;
+                    if (EstadoDeJogo.Vidas == 0)
+                    {
+                        EstadoDeJogo.FaseDeExecucao = Fase.Final;
+                        flag_acabou = true;
+                    }
+                    break;
+                case Fase.Final:
+                    btnPlay.isClicked = false;
+                    if (mouse.LeftButton == ButtonState.Pressed && flag_acabou == false)
+                        EstadoDeJogo.ZeraJogo();
+                    if (mouse.LeftButton == ButtonState.Released)
+                        flag_acabou = false;
+                    break;
+                default:
+                    break;
             }
 
             base.Update(gameTime);
@@ -183,14 +172,14 @@ namespace TrashFun
         /// </summary>
         protected void VerificaPontuacao()
         {
-            if(Sujeira.ativo != null)
+            if (Sujeira.ativo != null)
             {
                 bool lixeiraCorreta;
 
                 // Se colidiu com uma lixeira
-                if(Sujeira.VerificaColisoes(lixeiros, out lixeiraCorreta))
+                if (Sujeira.VerificaColisoes(lixeiros, out lixeiraCorreta))
                 {
-                    if(lixeiraCorreta)
+                    if (lixeiraCorreta)
                         EstadoDeJogo.Pontua();
                     else
                         EstadoDeJogo.Vidas--;
@@ -204,9 +193,9 @@ namespace TrashFun
                 Lixo outro;
 
                 // Se colidiu com outro lixo
-                if(Sujeira.VerificaColisoes(out outro, out bonus))
+                if (Sujeira.VerificaColisoes(out outro, out bonus))
                 {
-                    if(bonus)
+                    if (bonus)
                         EstadoDeJogo.GanhaBonus();
                     else
                     {
@@ -227,41 +216,41 @@ namespace TrashFun
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            switch(EstadoDeJogo.FaseDeExecucao)
+            switch (EstadoDeJogo.FaseDeExecucao)
             {
-            case Fase.Inicial:
-                spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-                btnPlay.Draw(spriteBatch);
-                break;
-            case Fase.Partida:
-                background.Draw(spriteBatch);
+                case Fase.Inicial:
+                    spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                    btnPlay.Draw(spriteBatch);
+                    break;
+                case Fase.Partida:
+                    background.Draw(spriteBatch);
 
-                // TODO: Desenhar Lixeiros
-                // Lixeiros.Draw(spriteBatch);
+                    // TODO: Desenhar Lixeiros
+                    // Lixeiros.Draw(spriteBatch);
 
-                foreach(var item in lixeiros)
-                {
-                    item.Draw(spriteBatch);
-                }
+                    foreach (var item in lixeiros)
+                    {
+                        item.Draw(spriteBatch);
+                    }
 
-                Sujeira.DrawLixoNoChao(spriteBatch);
+                    Sujeira.DrawLixoNoChao(spriteBatch);
 
-                // TODO: Desenhar Lixos
-                // VetorDeLixo.Draw(spriteBatch);
+                    // TODO: Desenhar Lixos
+                    // VetorDeLixo.Draw(spriteBatch);
 
-                EstadoDeJogo.DrawScoreAndLife(spriteBatch, scoreFont, heart);
-                break;
-            case Fase.Final:
-                // TelaPontuacao.Draw();
-                Sujeira.Limpa();
-                spriteBatch.DrawString(GameOverFont, "GAME OVER", new Vector2(302, 252), Color.Black);
-                spriteBatch.DrawString(GameOverFont, "GAME OVER", new Vector2(300, 250), Color.White);
+                    EstadoDeJogo.DrawScoreAndLife(spriteBatch, scoreFont, heart);
+                    break;
+                case Fase.Final:
+                    // TelaPontuacao.Draw();
+                    Sujeira.Limpa();
+                    spriteBatch.DrawString(GameOverFont, "GAME OVER", new Vector2(302, 252), Color.Black);
+                    spriteBatch.DrawString(GameOverFont, "GAME OVER", new Vector2(300, 250), Color.White);
 
-                spriteBatch.DrawString(GameOverFont, EstadoDeJogo.Pontuacao.ToString(), new Vector2(302, 302), Color.Black);
-                spriteBatch.DrawString(GameOverFont, EstadoDeJogo.Pontuacao.ToString(), new Vector2(300, 300), Color.White);
-                break;
-            default:
-                break;
+                    spriteBatch.DrawString(GameOverFont, EstadoDeJogo.Pontuacao.ToString(), new Vector2(302, 302), Color.Black);
+                    spriteBatch.DrawString(GameOverFont, EstadoDeJogo.Pontuacao.ToString(), new Vector2(300, 300), Color.White);
+                    break;
+                default:
+                    break;
             }
             spriteBatch.End();
 
